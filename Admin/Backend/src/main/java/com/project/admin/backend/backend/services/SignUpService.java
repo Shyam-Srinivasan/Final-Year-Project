@@ -11,7 +11,10 @@ public class SignUpService {
     private CollegesRepository collegesRepository;
 
     public CollegesModel createOrganization(CollegesModel collegesModel){
-        collegesModel.setId(null);
         return collegesRepository.save(collegesModel);
+    }
+
+    public boolean checkOrganizationExists(CollegesModel collegesModel){
+        return collegesRepository.findByName(collegesModel.getName()) == null;
     }
 }

@@ -3,6 +3,8 @@ package com.project.admin.backend.backend.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UuidGenerator;
 
 @Entity
 @Data
@@ -23,24 +25,22 @@ import lombok.*;
 )
 public class CollegesModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "college_id", nullable = false, unique = true, length = 64)
     private String college_id;
 
-    @Column(name = "name", nullable = false, unique = true, length = 255)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "address", nullable = false, unique = true, length = 512)
+    @Column(name = "address", nullable = false, length = 512)
     private String address;
 
-    @Column(name = "email", nullable = false, unique = true, length = 255)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "phone_no", nullable = false, unique = true, length = 32)
     private String phone_no;
 
-    @Column(name = "domain_address", nullable = false, unique = true, length = 255)
+    @Column(name = "domain_address", nullable = false, unique = true)
     private String domain_address;
 }
