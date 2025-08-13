@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {Link, useNavigate} from "react-router-dom";
 import axios from 'axios';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 
@@ -11,19 +12,22 @@ export const SignUpPage = () => {
     phone_no: ''
   });
 
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const res = await axios.post('http://localhost:8080/signUp', form);
-    alert('Organization created!');
-  } catch (err) {
-    alert('Error creating Organization');
-  }
-};
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      try {
+        const res = await axios.post('http://localhost:8080/signUp', form);
+        navigate('/home');
+      } catch (err) {
+        const message = err.response?.data || 'Error creating Organization';
+        alert(message);
+      }
+    };
 
   return (
     <Container fluid className="min-vh-100 d-flex align-items-center justify-content-center">
@@ -54,6 +58,9 @@ const handleSubmit = async (e) => {
             <Button variant="primary" type="submit" className="w-100">
               Submit
             </Button>
+              <p className="mt-3 text-dark">
+              Already created Organization? <Link to="/signIn">Sign in</Link>
+            </p>
           </Form>
         </Col>
       </Row>

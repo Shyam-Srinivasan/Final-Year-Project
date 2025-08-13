@@ -25,8 +25,13 @@ public class Controller {
     }
 
     @GetMapping("/signIn")
-    String signInPage(@RequestParam String college_name){
-        return signInService.signIn(college_name);
+    Boolean signInPage(@RequestParam String college_name){
+//        return signInService.signIn(college_name);
+        if(signInService.validateUser(college_name)){
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
