@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Button, Form, Spinner } from "react-bootstrap";
-import "./ShopTile.css";
+import "../Tile.css";
 import axios from "axios";
 import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";

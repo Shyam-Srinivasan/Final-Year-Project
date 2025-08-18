@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
 import { Modal, Button, Form, Spinner } from "react-bootstrap";
-import "./ShopTile.css";
+import "./Tile.css";
 import axios from "axios";
 import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
-
+import {CreateTile} from "./CreateTile";
 export const Tile = ({
                          name = "",
                          id ="",
@@ -176,7 +176,7 @@ export const Tile = ({
 
   return (
     <>
-      <div className="shop-card"
+      <div className="tile-card"
           style={{ cursor: "pointer" }}
           onClick={handleClick}
           // onKeyDown={}
@@ -184,19 +184,19 @@ export const Tile = ({
           tabIndex={0}
           aria-label={`Open ${type}`}
         >
-        <div className="shop-card__shine" />
-        <div className="shop-card__glow" />
-        <div className="shop-card__content">
-          <div className="shop-card__image" />
+        <div className="tile-card__shine" />
+        <div className="tile-card__glow" />
+        <div className="tile-card__content">
+          <div className="tile-card__image" />
 
-          <div className="shop-card__row">
-            <p className="shop-card__title" title={form.name || name}>
+          <div className="tile-card__row">
+            <p className="tile-card__title" title={form.name || name}>
               {name}
             </p>
 
             <button
               type="button"
-              className="shop-card__edit"
+              className="tile-card__edit"
               aria-label={`Open ${type}`}
               onClick={(e) => {
                 e.stopPropagation();

@@ -1,9 +1,8 @@
-import {Alert, Col, Container, Row, Spinner} from "react-bootstrap";
-import {useCallback, useEffect, useState} from "react";
+import {Alert, Button, Col, Container, Form, Modal, Row, Spinner} from "react-bootstrap";
+import React, {useCallback, useEffect, useState} from "react";
 import axios from "axios";
-import {ShopTile} from "./ShopTile";
 import {Tile} from "./Tile";
-
+import {CreateTile} from "./CreateTile";
 
 const API_BASE = `http://${window.location.hostname}:8080`;
 
@@ -13,13 +12,16 @@ export const CategoryPage = () => {
     const [shop, setShop] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [form, setForm] = useState({category_name: "", image_path: ""});
+    const [showCreate, setShowCreate] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
     
     const loadCategories = useCallback( async () => {
         setError("");
         setLoading(true);
         try{
-            if(!college?.id){
-                setError("No organization found in session. Please Sign in again.");
+            if(!shop?.id){
+                setError("No shops found in session. Please Sign in again.");
                 return;
             }
             const res = await axios.get(
@@ -29,7 +31,7 @@ export const CategoryPage = () => {
                 });
             if(res.status === 302 && Array.isArray(res.data)){
                 setCategories(res.data);
-            } else if(res.data === 204){
+            } else if(res.status === 204){
                 setCategories([]);
             } else if(res.data === 404){
                 setError("Organization not found.");
@@ -55,6 +57,57 @@ export const CategoryPage = () => {
         }
         loadCategories();
     }, [loadCategories]);
+    
+    const openCreate = () => {
+        setForm({
+            category_name: "",
+            image_path: ""
+        });
+        setShowCreate(true);
+    }
+    const closeCreate = () => setShowCreate(false);
+    
+    const onFormChange = (e) => {
+        const { name, value } = e.target;
+        setForm((f) => ({...f, [name]: value}));
+    };
+    
+    const submitCreate = async (e) => {
+        e.preventDefault();
+        if(!shop?.id){
+            setError("No shop found in session. Please sign in again.")
+            return;
+        }
+
+        setSubmitting(true);
+
+        try{
+            const payload = {
+                shop_id: shop.id,
+                category_name: form.category_name,
+                image_path: form.image_path
+            };
+
+            const res = await axios.post(
+                `${API_BASE}/categoryList/createCategory`,
+                payload,
+                {
+                    validateStatus: () => true
+                }
+            );
+            if(res.status === 201 || res.status === 200){
+                closeCreate();
+                await loadCategories();
+            } else{
+                const msg = res.data || "Failed to create category.";
+                Error(msg);
+            }
+        } catch (err) {
+            Error(err.response?.data || "Network error while creating category");
+        } finally {
+            setSubmitting(false);
+        }
+    }
     
     return(
         <Container fluid className="bg-white min-vh-100">
@@ -84,6 +137,14 @@ export const CategoryPage = () => {
                 </Row>
             )}
 
+            {!loading && !error && categories.length === 0 && (
+                <Row>
+                    <Col>
+                        <Alert variant="info">No categories found for this shop.</Alert>
+                    </Col>
+                </Row>
+            )}
+
             {!loading && !error && (
                 <Row className="g-1 justify-content-start">
                     {categories.map((category) => (
@@ -91,8 +152,53 @@ export const CategoryPage = () => {
                             <Tile name={category.category_name ?? category.categoryName} id={category.category_id ?? category.categoryId} onUpdate={loadCategories} type="category"/>
                         </Col>
                     ))}
+                    <Col xs="12" sm="6" md="4" lg="3" xl="3">
+                        <CreateTile openCreate={openCreate}/>
+                    </Col>
                 </Row>
             )}
+            <Modal show={showCreate} onHide={closeCreate} centered>
+                <Form onSubmit={submitCreate}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Create Category</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form.Group className="mb-3" controlId="categoryName">
+                            <Form.Label>Category Name</Form.Label>
+                            <Form.Control
+                                name="category_name"
+                                type="text"
+                                placeholder="Enter category name"
+                                value={form.category_name}
+                                onChange={onFormChange}
+                                required
+                                maxLength={128}
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-2" controlId="imagePath">
+                            <Form.Label>Image Path</Form.Label>
+                            <Form.Control
+                                name="image_path"
+                                type="text"
+                                placeholder="Enter image path"
+                                value={form.image_path}
+                                onChange={onFormChange}
+                                required
+                                maxLength={16}
+                            />
+                            <Form.Text muted>Max 16 characters.</Form.Text>
+                        </Form.Group>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={closeCreate} disabled={submitting}>
+                            Cancel
+                        </Button>
+                        <Button variant="primary" type="submit" disabled={submitting}>
+                            {submitting ? "Creating..." : "Create"}
+                        </Button>
+                    </Modal.Footer>
+                </Form>
+            </Modal>
             
         </Container>
     );
