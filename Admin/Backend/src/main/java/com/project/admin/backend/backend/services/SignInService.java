@@ -10,6 +10,10 @@ import org.springframework.stereotype.Service;
 public class SignInService {
     @Autowired
     private CollegesRepository collegesRepository;
+    
+    public CollegesModel getCollegeByName(String college_name){
+        return collegesRepository.findByName(college_name);
+    }
 
     public String signIn(String college_name){
         if(validateUser(college_name)){

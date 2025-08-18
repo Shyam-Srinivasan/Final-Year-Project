@@ -9,12 +9,9 @@ import org.springframework.stereotype.Service;
 public class SignUpService {
     @Autowired
     private CollegesRepository collegesRepository;
+    
 
     public CollegesModel createOrganization(CollegesModel collegesModel){
         return collegesRepository.save(collegesModel);
-    }
-
-    public boolean checkOrganizationExists(CollegesModel collegesModel){
-        return collegesRepository.findByName(collegesModel.getName()) == null;
     }
 }

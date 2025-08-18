@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import axios from 'axios';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import {ToastContainer, toast} from "react-toastify";
 
 export const SignUpPage = () => {
   const [form, setForm] = useState({
@@ -9,10 +10,12 @@ export const SignUpPage = () => {
     email: '',
     domain_address: '',
     address: '',
-    phone_no: ''
+    contact_no: ''
   });
 
   const navigate = useNavigate();
+  
+  const API_BASE = `http://${window.location.hostname}:8080`;
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -21,8 +24,11 @@ export const SignUpPage = () => {
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
-        const res = await axios.post('http://localhost:8080/signUp', form);
-        navigate('/home');
+        const res = await axios.post(
+            `${API_BASE}/signUp`,
+            form
+        );
+        navigate('/createShops');
       } catch (err) {
         const message = err.response?.data || 'Error creating Organization';
         alert(message);
@@ -53,7 +59,7 @@ export const SignUpPage = () => {
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label className='text-dark'>College Contact Number</Form.Label>
-              <Form.Control name="phone_no" type="text" value={form.phone_no} onChange={handleChange} required />
+              <Form.Control name="contact_no" type="text" value={form.contact_no} onChange={handleChange} required />
             </Form.Group>
             <Button variant="primary" type="submit" className="w-100">
               Submit

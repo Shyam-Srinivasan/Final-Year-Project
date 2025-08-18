@@ -5,6 +5,9 @@ import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {ToastContainer, toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
+
+const API_BASE = `http://${window.location.hostname}:8080`;
+
 export const SignInPage = () => {
     const [form, setForm] = useState({
         name: '',
@@ -26,22 +29,34 @@ export const SignInPage = () => {
         try{
 
             const res = await axios.get(
-                'http://localhost:8080/signIn',
+                `${API_BASE}/signIn`,
                 {
                     params: {
                         college_name: form.name
                     }
                 });
-            if(res.data){
+            if(res.status === 200){
+                const college = res.data;
+                localStorage.setItem(
+                    'college',
+                    JSON.stringify(
+                        {
+                            id: college.college_id,
+                            name: college.name
+                        }
+                    )
+                );
                 toast.success('Signed In Successful!', {autoClose: 2000});
-                setTimeout(() => navigate('/home'), 2000);
+                setTimeout(() => navigate('/shops'), 1500);
+                // navigate('/shops');
             } else {
                 toast.error('No Organization Found!');
             }
 
         }catch (err){
+            alert(err.response?.data);
             const message = err.response?.data || 'Error: Something went wrong. Please try again later.';
-            toast.error(message);
+            toast.error(message, {autoClose: 2000});
         }
     };
 
@@ -57,7 +72,7 @@ export const SignInPage = () => {
                         </Form.Group>
                         <Button variant='primary' type='submit' className='w-100'>Submit</Button>
                         <p className='mt-3 text-dark'>
-                            Haven't created your Organization yet? <Link to='/signUp'>Sign Un</Link>
+                            Haven't created your Organization yet? <Link to='/signUp'>Sign Up</Link>
                         </p>
                     </Form>
                 </Col>
