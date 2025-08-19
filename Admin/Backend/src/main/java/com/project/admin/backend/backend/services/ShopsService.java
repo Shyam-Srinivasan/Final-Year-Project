@@ -15,11 +15,11 @@ public class ShopsService {
     public ShopsModel createShop(ShopsModel shopsModel){
         return shopsRepository.save(shopsModel);
     }
-    public List<ShopsModel> fetchShops(String college_id){
-        return shopsRepository.findAllByCollege_CollegeId(college_id);
+    public List<ShopsModel> fetchShops(Long collegeName){
+        return shopsRepository.findAllByCollege_CollegeId(collegeName);
     }
-    public ShopsModel fetchShopById(String shop_id){
-        return shopsRepository.findByShopId(shop_id);
+    public ShopsModel fetchShopById(Long shopId){
+        return shopsRepository.findByShopId(shopId);
     }
 
     public ShopsModel updateShop(ShopsModel shop){

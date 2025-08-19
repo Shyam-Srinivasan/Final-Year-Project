@@ -10,14 +10,14 @@ import lombok.Data;
 public class CategoriesModel {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
     @JsonProperty("category_id")
-    private String categoryId;
+    private Long categoryId;
     
     @Column(name = "shop_id")
     @JsonProperty("shop_id")
-    private String shopId;
+    private Long shopId;
     
     @Column(name = "category_name")
     @JsonProperty("category_name")

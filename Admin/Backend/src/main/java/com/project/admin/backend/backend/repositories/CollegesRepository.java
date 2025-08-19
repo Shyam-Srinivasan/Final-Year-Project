@@ -4,5 +4,5 @@ import com.project.admin.backend.backend.models.CollegesModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CollegesRepository extends JpaRepository<CollegesModel, Long>{
-    CollegesModel findByName(String College_name);
+    CollegesModel findByCollegeName(String College_name);
 }

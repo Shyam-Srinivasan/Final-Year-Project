@@ -39,11 +39,11 @@ public class Controller {
     }
 
     @GetMapping("/signIn")
-    ResponseEntity<CollegesModel> signInPage(@RequestParam String college_name){
-        if(!signInService.validateUser(college_name)){
+    ResponseEntity<CollegesModel> signInPage(@RequestParam String collegeName){
+        if(!signInService.validateUser(collegeName)){
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-        CollegesModel college = signInService.getCollegeByName(college_name);
+        CollegesModel college = signInService.getCollegeByName(collegeName);
         if(college == null){
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
@@ -51,9 +51,9 @@ public class Controller {
     }
     
     @GetMapping("/shopList/fetchShop")
-    ResponseEntity<List<ShopsModel>> fetchShop(@RequestParam("collegeId") String college_id){
+    ResponseEntity<List<ShopsModel>> fetchShop(@RequestParam("collegeId") Long collegeId){
         try{
-            List<ShopsModel> shops= shopsService.fetchShops(college_id);
+            List<ShopsModel> shops= shopsService.fetchShops(collegeId);
             if(shops.isEmpty() || shops == null) {
                 return new ResponseEntity<>(shops, HttpStatus.NO_CONTENT);
             }
@@ -64,7 +64,7 @@ public class Controller {
     }
     
     @GetMapping("/shopList/fetchShopById")
-    ResponseEntity<ShopsModel> fetchShopById(@RequestParam String shopId){
+    ResponseEntity<ShopsModel> fetchShopById(@RequestParam Long shopId){
         try {
             ShopsModel shop = shopsService.fetchShopById(shopId);
             if(shop == null) return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -75,13 +75,13 @@ public class Controller {
     }
     
     @PutMapping("/shopList/updateShop")
-    ResponseEntity<ShopsModel> updateShop(@RequestParam String shop_id, @RequestBody ShopsModel updatedShop) {
+    ResponseEntity<ShopsModel> updateShop(@RequestParam Long shopId, @RequestBody ShopsModel updatedShop) {
         try {
             if (updatedShop == null || updatedShop.getShopName() == null || updatedShop.getPassword() == null) {
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
             }
     
-            ShopsModel shop = shopsService.fetchShopById(shop_id);
+            ShopsModel shop = shopsService.fetchShopById(shopId);
             if (shop == null) {
                 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
             }
@@ -107,7 +107,7 @@ public class Controller {
     }
         
     @PutMapping("/categoryList/updateCategory")
-    ResponseEntity<CategoriesModel> updateCategory(@RequestParam String categoryId, @RequestBody CategoriesModel updatedCategory){
+    ResponseEntity<CategoriesModel> updateCategory(@RequestParam Long categoryId, @RequestBody CategoriesModel updatedCategory){
         try {
             if(updatedCategory == null || categoryId == null || updatedCategory.getCategoryName() == null){
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -127,7 +127,7 @@ public class Controller {
     }
     
     @GetMapping("/categoryList/fetchCategory")
-    ResponseEntity<CategoriesModel> fetchCategory(@RequestParam String categoryId){
+    ResponseEntity<CategoriesModel> fetchCategory(@RequestParam Long categoryId){
         try{
             CategoriesModel category = categoriesService.fetchCategory(categoryId);
             if(category == null){
@@ -140,7 +140,7 @@ public class Controller {
     }
     
     @GetMapping("/categoryList/fetchCategories")
-    ResponseEntity<List<CategoriesModel>> fetchCategories(@RequestParam String shopId){
+    ResponseEntity<List<CategoriesModel>> fetchCategories(@RequestParam Long shopId){
         try {
             List<CategoriesModel> categories = categoriesService.fetchCategories(shopId);
             if(categories.isEmpty() || categories == null){
@@ -153,7 +153,7 @@ public class Controller {
     }
     
     @DeleteMapping("/categoryList/deleteCategory")
-    ResponseEntity<CategoriesModel> deleteCategory(@RequestParam String categoryId){
+    ResponseEntity<CategoriesModel> deleteCategory(@RequestParam Long categoryId){
         categoriesService.deleteCategory(categoryId);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }

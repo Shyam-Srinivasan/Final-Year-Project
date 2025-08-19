@@ -153,7 +153,7 @@ export const CategoryPage = () => {
                         </Col>
                     ))}
                     <Col xs="12" sm="6" md="4" lg="3" xl="3">
-                        <CreateTile openCreate={openCreate}/>
+                        <CreateTile openCreate={openCreate} type="category"/>
                     </Col>
                 </Row>
             )}

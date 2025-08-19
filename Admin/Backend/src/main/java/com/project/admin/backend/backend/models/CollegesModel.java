@@ -26,26 +26,26 @@ import org.hibernate.annotations.UuidGenerator;
 )
 public class CollegesModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "college_id", nullable = false, unique = true, length = 36)
     @JsonProperty("college_id")
-    private String collegeId;
+    private Long collegeId;
 
     @Column(name = "college_name", nullable = false, unique = true)
-    @JsonProperty("name")
-    private String name;
+    @JsonProperty("college_name")
+    private String collegeName;
 
-    @Column(name = "address", nullable = false, length = 512)
+    @Column(name = "address", nullable = false, length = 255)
     @JsonProperty("address")
     private String address;
 
     @Column(name = "domain_address", nullable = false, unique = true)
     @JsonProperty("domain_address")
-    private String domain_address;
+    private String domainAddress;
 
-    @Column(name = "email_address", nullable = false, unique = true)
-    @JsonProperty("email")
-    private String email;
+    @Column(name = "email_id", nullable = false, unique = true)
+    @JsonProperty("email_id")
+    private String emailId;
 
     @Column(name = "contact_no", nullable = false, unique = true, length = 32)
     @JsonProperty("contact_no")

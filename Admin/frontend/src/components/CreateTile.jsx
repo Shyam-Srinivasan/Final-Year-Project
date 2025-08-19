@@ -1,7 +1,7 @@
 import React from "react";
 import "./Tile.css";
 
-export const CreateTile = ({ openCreate }) => {
+export const CreateTile = ({ openCreate , type}) => {
   const handleActivate = () => {
     if (typeof openCreate === "function") {
       openCreate();
@@ -27,18 +27,9 @@ export const CreateTile = ({ openCreate }) => {
     >
       <div className="tile-card__shine" />
       <div className="tile-card__glow" />
-      <div className="tile-card__content">
-        <div className="tile-card__badge">ADD</div>
-
-        <div className="tile-card__text">
-          <p className="tile-card__title">Create Shop</p>
-          <p className="shotile-card__description"></p>
-        </div>
-
-        <div className="tile-card__footer">
-          <div className="tile-card__price">Create</div>
-          <div className="shotile-card__button" aria-hidden="true">
-            <svg height={16} width={16} viewBox="0 0 24 24" aria-hidden="true">
+      <div className="tile-card__content justify-content-center">
+          <div className="shotile-card__button text-center" aria-hidden="true">
+            <svg height={25} width={25} viewBox="0 0 24 24" aria-hidden="true">
               <path
                 strokeWidth={2}
                 stroke="currentColor"
@@ -47,7 +38,11 @@ export const CreateTile = ({ openCreate }) => {
               />
             </svg>
           </div>
-        </div>
+          <div className="tile-card__badge">ADD</div>
+          <div className="tile-card__text">
+              <p className="tile-card__title text-center">Create {type === "shop" ? "Shop" : "Category"}</p>
+          </div>
+
       </div>
     </div>
   );

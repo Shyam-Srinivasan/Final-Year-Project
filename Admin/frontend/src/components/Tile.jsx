@@ -133,7 +133,7 @@ export const Tile = ({
               res = await axios.put(
                   `${API_BASE}/shopList/updateShop`,
                   payload,{
-                      params: {shop_id : id},
+                      params: {shopId : id},
                       validateStatus: () => true,
                   }
               );

@@ -10,7 +10,7 @@ const API_BASE = `http://${window.location.hostname}:8080`;
 
 export const SignInPage = () => {
     const [form, setForm] = useState({
-        name: '',
+        college_name: '',
         // TODO: Other details should be added for validation
     });
 
@@ -27,14 +27,14 @@ export const SignInPage = () => {
         e.preventDefault();
 
         try{
-
             const res = await axios.get(
                 `${API_BASE}/signIn`,
                 {
                     params: {
-                        college_name: form.name
+                        collegeName: form.college_name
                     }
                 });
+            alert("1");
             if(res.status === 200){
                 const college = res.data;
                 localStorage.setItem(
@@ -42,7 +42,7 @@ export const SignInPage = () => {
                     JSON.stringify(
                         {
                             id: college.college_id,
-                            name: college.name
+                            name: college.college_name
                         }
                     )
                 );
@@ -68,7 +68,7 @@ export const SignInPage = () => {
                     <Form className='p-4 shadow rounded bg-white' onSubmit={handleSubmit}>
                         <Form.Group className="mb-3">
                           <Form.Label className='text-dark'>College Name</Form.Label>
-                          <Form.Control name="name" type="text" value={form.name} onChange={handleChange} required />
+                          <Form.Control name="college_name" type="text" value={form.college_name} onChange={handleChange} required />
                         </Form.Group>
                         <Button variant='primary' type='submit' className='w-100'>Submit</Button>
                         <p className='mt-3 text-dark'>

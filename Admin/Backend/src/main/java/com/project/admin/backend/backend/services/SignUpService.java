@@ -10,7 +10,6 @@ public class SignUpService {
     @Autowired
     private CollegesRepository collegesRepository;
     
-
     public CollegesModel createOrganization(CollegesModel collegesModel){
         return collegesRepository.save(collegesModel);
     }

@@ -6,8 +6,8 @@ import {ToastContainer, toast} from "react-toastify";
 
 export const SignUpPage = () => {
   const [form, setForm] = useState({
-    name: '',
-    email: '',
+    college_name: '',
+    email_id: '',
     domain_address: '',
     address: '',
     contact_no: ''
@@ -43,11 +43,11 @@ export const SignUpPage = () => {
           <Form className="p-4 shadow rounded bg-white" onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
               <Form.Label className='text-dark'>College Name</Form.Label>
-              <Form.Control name="name" type="text" value={form.name} onChange={handleChange} required />
+              <Form.Control name="college_name" type="text" value={form.college_name} onChange={handleChange} required />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label className='text-dark'>College Email Address</Form.Label>
-              <Form.Control name="email" type="email" value={form.email} onChange={handleChange} required />
+              <Form.Control name="email_id" type="email" value={form.email_id} onChange={handleChange} required />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label className='text-dark'>College Domain Address</Form.Label>

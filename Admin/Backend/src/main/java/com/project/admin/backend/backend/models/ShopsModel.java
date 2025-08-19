@@ -18,20 +18,20 @@ import lombok.NoArgsConstructor;
 )
 public class ShopsModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "shop_id", nullable = false, unique = true, length = 36)
     @JsonProperty("shop_id")
-    private String shopId;
+    private Long shopId;
     
     @Column(name = "college_id", nullable = false, length = 36)
     @JsonProperty("college_id")
-    private String collegeId;
+    private Long collegeId;
     
     @Column(name = "shop_name", nullable = false, unique = true)
     @JsonProperty("shop_name")
     private String shopName;
     
-    @Column(name = "password", nullable = false, length = 16)
+    @Column(name = "password", nullable = false, length = 255)
     @JsonProperty("password")
     private String password;
     

@@ -1,6 +1,5 @@
 package com.project.admin.backend.backend.services;
 
-
 import com.project.admin.backend.backend.models.CollegesModel;
 import com.project.admin.backend.backend.repositories.CollegesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +10,12 @@ public class SignInService {
     @Autowired
     private CollegesRepository collegesRepository;
     
-    public CollegesModel getCollegeByName(String college_name){
-        return collegesRepository.findByName(college_name);
+    public CollegesModel getCollegeByName(String collegeName){
+        return collegesRepository.findByCollegeName(collegeName);
     }
 
-    public String signIn(String college_name){
-        if(validateUser(college_name)){
+    public String signIn(String collegeName){
+        if(validateUser(collegeName)){
             return "Welcome to Home Page";
         }
         else{
@@ -24,7 +23,7 @@ public class SignInService {
         }
     }
 
-    public boolean validateUser(String college_name){
-        return collegesRepository.findByName(college_name) != null;
+    public boolean validateUser(String collegeName){
+        return collegesRepository.findByCollegeName(collegeName) != null;
     }
 }

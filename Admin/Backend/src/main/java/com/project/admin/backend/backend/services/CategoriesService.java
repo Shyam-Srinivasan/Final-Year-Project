@@ -12,11 +12,11 @@ public class CategoriesService {
     @Autowired
     private CategoriesRepository categoriesRepository;
     
-    public List<CategoriesModel> fetchCategories(String shopId){
+    public List<CategoriesModel> fetchCategories(Long shopId){
         return categoriesRepository.findAllByShop_ShopId(shopId);
     }
     
-    public CategoriesModel fetchCategory(String categoryId){
+    public CategoriesModel fetchCategory(Long categoryId){
         return categoriesRepository.findByCategoryId(categoryId);
     }
     
@@ -28,7 +28,7 @@ public class CategoriesService {
         return categoriesRepository.save(category);
     }
     
-    public void deleteCategory(String categoryId){
+    public void deleteCategory(Long categoryId){
         categoriesRepository.deleteById(categoryId);
     }
 }

@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ShopsRepository extends JpaRepository<ShopsModel, String> {
-    List<ShopsModel> findAllByCollege_CollegeId(String college_id);
+public interface ShopsRepository extends JpaRepository<ShopsModel, Long> {
+    List<ShopsModel> findAllByCollege_CollegeId(Long collegeName);
 
-    ShopsModel findByShopId(String shop_id);
+    ShopsModel findByShopId(Long shop_id);
 }
