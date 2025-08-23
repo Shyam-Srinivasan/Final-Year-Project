@@ -1,15 +1,17 @@
 {
-  "homepage": "https://Shyam-Srinivasan.github.io/Saapadu",
+  "homepage": "https://Shyam-Srinivasan.github.io/Final-Year-Project",
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-buddy/ide-toolbox": "^2.4.0",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.6.4",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.11.0",
     "bootstrap": "^5.3.7",
+    "gh-pages": "^6.3.0",
     "react": "^19.1.1",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1.1",
@@ -17,8 +19,7 @@
     "react-router-dom": "^7.8.0",
     "react-scripts": "5.0.1",
     "react-toastify": "^11.0.5",
-    "web-vitals": "^2.1.4",
-    "@react-buddy/ide-toolbox": "^2.4.0"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -27,7 +28,6 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
-
   },
   "eslintConfig": {
     "extends": [
