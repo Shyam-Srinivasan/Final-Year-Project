@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/Saapadu/static/css/main.926a8c55.css",
-    "main.js": "/Saapadu/static/js/main.e0faad3e.js",
-    "static/js/453.670e15c7.chunk.js": "/Saapadu/static/js/453.670e15c7.chunk.js",
-    "index.html": "/Saapadu/index.html",
-    "main.926a8c55.css.map": "/Saapadu/static/css/main.926a8c55.css.map",
-    "main.e0faad3e.js.map": "/Saapadu/static/js/main.e0faad3e.js.map",
-    "453.670e15c7.chunk.js.map": "/Saapadu/static/js/453.670e15c7.chunk.js.map"
+    "main.css": "/Final-Year-Project/static/css/main.926a8c55.css",
+    "main.js": "/Final-Year-Project/static/js/main.07868b1a.js",
+    "static/js/453.670e15c7.chunk.js": "/Final-Year-Project/static/js/453.670e15c7.chunk.js",
+    "index.html": "/Final-Year-Project/index.html",
+    "main.926a8c55.css.map": "/Final-Year-Project/static/css/main.926a8c55.css.map",
+    "main.07868b1a.js.map": "/Final-Year-Project/static/js/main.07868b1a.js.map",
+    "453.670e15c7.chunk.js.map": "/Final-Year-Project/static/js/453.670e15c7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.926a8c55.css",
-    "static/js/main.e0faad3e.js"
+    "static/js/main.07868b1a.js"
   ]
 }
