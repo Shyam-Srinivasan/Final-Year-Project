@@ -149,7 +149,7 @@ export const CategoryPage = () => {
                 <Row className="g-1 justify-content-start">
                     {categories.map((category) => (
                         <Col key={category.category_id ?? category.categoryId} xs="12" sm="6" md="4" lg="3" xl="3">
-                            <Tile name={category.category_name ?? category.categoryName} id={category.category_id ?? category.categoryId} onUpdate={loadCategories} type="category"/>
+                            <Tile name={category.category_name ?? category.categoryName} id={category.category_id ?? category.categoryId} image_path={category.image_path} onUpdate={loadCategories} type="category"/>
                         </Col>
                     ))}
                     <Col xs="12" sm="6" md="4" lg="3" xl="3">

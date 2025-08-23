@@ -5,11 +5,14 @@ import axios from "axios";
 import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
 import {CreateTile} from "./CreateTile";
+
 export const Tile = ({
                          name = "",
                          id ="",
                          password= "",
                          image_path = "",
+                        price = "",
+                        stock_quantity = "",
                          type="",
                          onUpdate,
                          onFetchDetails,
@@ -19,9 +22,10 @@ export const Tile = ({
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("")
-  let [form, setForm] = useState(type==="shop" ? {name, password, image_path:""} : {name, image_path:""});
+const [form, setForm] = useState({ name: "", password: "", image_path: "", price: "", stock_quantity: "" });
   const [college, setCollege] = useState(null);
   const [shop, setShop] = useState(null);
+  const [category, setCategory] = useState(null);
   
   const API_BASE = `http://${window.location.hostname}:8080`;
   const navigate = useNavigate();
@@ -30,11 +34,14 @@ export const Tile = ({
         try {
             const savedCollege = JSON.parse(localStorage.getItem("college"));
             const savedShop = JSON.parse(localStorage.getItem("shop"));
+            const savedCategory = JSON.parse(localStorage.getItem("category"));
             setCollege(savedCollege);
             setShop(savedShop);
+            setCategory(savedCategory);
         } catch {
             setCollege(null);
             setShop(null);
+            setCategory(null);
         }
     }, []);
   
@@ -52,7 +59,7 @@ export const Tile = ({
           navigate('/categories');
       }
       else if(type === "category"){
-          navigate('/home');
+          navigate('/items');
       }
   }
   
@@ -61,7 +68,7 @@ export const Tile = ({
     setShowModal(true);
     try {
       setLoading(true);
-      let details = { name, password, image_path };
+      let details = { name, password, image_path, price, stock_quantity };
       if (typeof onFetchDetails === "function") {
         details = await onFetchDetails(id);
       } else if (id) {
@@ -85,6 +92,17 @@ export const Tile = ({
                 details = await res.data;
               }
           }
+          else if(type === "item"){
+              res = await axios.get(
+                  `${API_BASE}/itemList/fetchItem`, {
+                      params: {itemId: id},
+                      validateStatus: () => true,
+                  }
+              );
+              if(res.status === 302){
+                  details = await res.data;
+              }
+          }
       }
       if(type === "shop"){
           setForm({
@@ -98,11 +116,27 @@ export const Tile = ({
              name: details?.category_name ?? name,
               image_path: details?.image_path ?? "",
           });
+      } 
+      else if(type === "item"){
+          setForm({
+              name: details?.item_name ?? name,
+              image_path: details?.image_path ?? "",
+              price: details?.price ?? "",
+              stock_quantity: details?.stock_quantity ?? "",
+          });
       }
       
     } catch (e) {
-      setError(`Failed to load ${type === "shop" ? "Shop" : "Category"} details.`);
-      setForm(type === "shop" ? {name, password, image_path } : {name, image_path});
+        if(type === "shop"){
+            setError(`Failed to load Shop`);
+            setForm({name, password, image_path});
+        } else if(type === "category"){
+            setError(`Failed to load Category`);
+            setForm({name, image_path});
+        } else if(type === "item"){
+            setError(`Failed to load Item`);
+            setForm({name, image_path, price, stock_quantity});
+        }
     } finally {
       setLoading(false);
     }
@@ -166,6 +200,29 @@ export const Tile = ({
                   toast.error(res.data || "Failed to update category", { autoClose: 2000 });
               }
         }
+          else if (type === "item"){
+              const payload = {
+                  category_id: category?.id ?? category?.category_id,
+                  item_name: form.name,
+                  image_path: form.image_path,
+                  price: form.price,
+                  stock_quantity: form.stock_quantity
+              };
+              res = await axios.put(
+                  `${API_BASE}/itemList/updateItem`,
+                  payload, {
+                      params: {itemId: id},
+                      validateStatus: () => true
+                  }
+              );
+              if(res.status === 201){
+                  toast.success("Item updated!", {autoClose: 2000});
+                  setShowModal(false);
+                  if(typeof onUpdate === "function") await onUpdate();
+              } else {
+                  toast.error(res.data || "Failed to update item", {autoClose: 2000});
+              }
+          }
       }
     } catch (e) {
       setError("Failed to save changes.");
@@ -226,7 +283,7 @@ export const Tile = ({
 
       <Modal show={showModal} onHide={handleClose} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Edit {type === "shop" ? "Shop" : "Category"}</Modal.Title>
+          <Modal.Title>Edit {type === "shop" ? "Shop" : type === "category" ? "Category" : "Item"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {loading ? (
@@ -246,7 +303,7 @@ export const Tile = ({
               )}
               <Form>
                 <Form.Group controlId="name">
-                  <Form.Label>{type === "shop" ? "Shop Name" : "Category Name"}</Form.Label>
+                  <Form.Label>{type === "shop" ? "Shop Name" : type === "category" ? "Category Name" : "Item Name"}</Form.Label>
                   <Form.Control
                     type="text"
                     value={form.name}
@@ -267,8 +324,8 @@ export const Tile = ({
                       />
                   </Form.Group>
                   )}
-
-                  {type === "category" && (
+                  
+                  {(type === "category" || type === "item") && (
                       <Form.Group controlId="img_path">
                       <Form.Label>Image Path</Form.Label>
                       <Form.Control
@@ -279,6 +336,33 @@ export const Tile = ({
                           autoFocus
                           />
                   </Form.Group>
+                  )}
+
+                  {type === "item" && (
+                      <Form.Group controlId="price">
+                          <Form.Label>Price</Form.Label>
+                          <Form.Control
+                              type="number"
+                              step="0.01"
+                              value={form.price}
+                              onChange={(e) => setForm((f) => ({...f, price: e.target.value}))}
+                              placeholder="Enter price"
+                              autoFocus
+                          />
+                      </Form.Group>
+                  )}
+
+                  {type === "item" && (
+                      <Form.Group controlId="stock_quantity">
+                          <Form.Label>Stock Quantity</Form.Label>
+                          <Form.Control
+                              type="number"
+                              value={form.stock_quantity}
+                              onChange={(e) => setForm((f) => ({...f, stock_quantity: e.target.value}))}
+                              placeholder="Enter stock quantity"
+                              autoFocus
+                          />
+                      </Form.Group>
                   )}
                   
               </Form>

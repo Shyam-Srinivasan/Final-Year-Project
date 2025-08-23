@@ -34,7 +34,6 @@ export const SignInPage = () => {
                         collegeName: form.college_name
                     }
                 });
-            alert("1");
             if(res.status === 200){
                 const college = res.data;
                 localStorage.setItem(
@@ -57,6 +56,7 @@ export const SignInPage = () => {
             alert(err.response?.data);
             const message = err.response?.data || 'Error: Something went wrong. Please try again later.';
             toast.error(message, {autoClose: 2000});
+            
         }
     };
 

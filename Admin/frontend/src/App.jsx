@@ -10,6 +10,7 @@ import {CreateShopPage} from "./components/CreateShopPage";
 import {ShopPage} from "./components/ShopPage";
 import {CreateTile} from "./components/CreateTile";
 import {CategoryPage} from "./components/CategoryPage";
+import {ItemPage} from "./components/ItemPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
                 <Route path="/shops" element={<ShopPage/>} />
                 <Route path="/shopList/createShop" element={<CreateShopPage/>} />
                 <Route path="/categories" element={<CategoryPage/>}/>
+                <Route path="/items" element={<ItemPage/>}/>
                 <Route path="/home" element={<HomePage/>} />
                 <Route path="*" element={<Navigate to="/signUp" replace/>} />
             </Routes>

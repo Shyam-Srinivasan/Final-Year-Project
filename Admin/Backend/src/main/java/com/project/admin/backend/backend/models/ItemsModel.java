@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 public class ItemsModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "item_id")
+    @Column(name = "item_id", unique = true)
     @JsonProperty("item_id")
     private Long itemId;
     
@@ -19,7 +19,7 @@ public class ItemsModel {
     @JsonProperty("category_id")
     private Long categoryId;
     
-    @Column(name = "item_name")
+    @Column(name = "item_name", unique = true)
     @JsonProperty("item_name")
     private String itemName;
     

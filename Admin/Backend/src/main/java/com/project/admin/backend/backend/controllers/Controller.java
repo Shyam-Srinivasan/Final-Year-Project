@@ -2,11 +2,9 @@ package com.project.admin.backend.backend.controllers;
 
 import com.project.admin.backend.backend.models.CategoriesModel;
 import com.project.admin.backend.backend.models.CollegesModel;
+import com.project.admin.backend.backend.models.ItemsModel;
 import com.project.admin.backend.backend.models.ShopsModel;
-import com.project.admin.backend.backend.services.CategoriesService;
-import com.project.admin.backend.backend.services.SignInService;
-import com.project.admin.backend.backend.services.SignUpService;
-import com.project.admin.backend.backend.services.ShopsService;
+import com.project.admin.backend.backend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000", "http://192.168.1.5:3000"})
+@CrossOrigin(origins = {"http://localhost:3000", "http://192.168.1.8:3000"})
 public class Controller {
     @Autowired
     private final SignUpService signUpService;
@@ -25,6 +23,8 @@ public class Controller {
     private ShopsService shopsService;
     @Autowired
     private CategoriesService categoriesService;
+    @Autowired
+    private ItemsService itemsService;
 
 
     public Controller(SignUpService signUpService, SignInService signInService, ShopsService shopsService) {
@@ -156,5 +156,74 @@ public class Controller {
     ResponseEntity<CategoriesModel> deleteCategory(@RequestParam Long categoryId){
         categoriesService.deleteCategory(categoryId);
         return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+    
+    @PostMapping("/itemList/createItem")
+    ResponseEntity<ItemsModel> createItem(@RequestBody ItemsModel item){
+        return new ResponseEntity<>(itemsService.createItem(item), HttpStatus.CREATED);
+    }
+    
+    @PutMapping("/itemList/updateItem")
+    ResponseEntity<ItemsModel> updateItem(@RequestParam Long itemId, @RequestBody ItemsModel updatedItem){
+        try {
+            if(updatedItem == null || itemId == null){
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            }
+
+            ItemsModel item = itemsService.fetchItem(itemId);
+
+            if(item == null){
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
+
+            item.setItemName(updatedItem.getItemName());
+            item.setCategoryId(updatedItem.getCategoryId());
+            item.setImagePath(updatedItem.getImagePath());
+            item.setStockQuantity(updatedItem.getStockQuantity());
+
+            ItemsModel save = itemsService.updateItem(item);
+            return new ResponseEntity<>(save, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("/itemList/fetchItem")
+    ResponseEntity<ItemsModel> fetchItem(@RequestParam Long itemId){
+        try{
+            ItemsModel item = itemsService.fetchItem(itemId);
+            if(item == null){
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(item, HttpStatus.FOUND);
+        } catch (Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("/itemList/fetchItems")
+    ResponseEntity<List<ItemsModel>> fetchItems(@RequestParam Long categoryId){
+        try{
+            List<ItemsModel> items = itemsService.fetchItems(categoryId);
+            if(items.isEmpty() || items == null){
+                return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(items, HttpStatus.FOUND);
+        } catch (Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @DeleteMapping("/itemList/deleteItem")
+    ResponseEntity<ItemsModel> deleteItem(@RequestParam Long categoryId){
+        try{
+            if(itemsService.deleteItem(categoryId)){
+                return new ResponseEntity<>(null, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

@@ -115,10 +115,10 @@ export const ShopPage = () => {
         <Container fluid className="bg-white min-vh-100">
             <Row className="mb-3">
                 <Col className="p-0">
-                    <h4 className="text-center text-white bg-primary m-0 w-100 fs-1 text-uppercase" style={{borderRadius: 0}}>
-                        {college?.name ? `${college.name} - Shops` : "Shops"}
+                    <h4 className="text-center text-white bg-primary m-0 w-100 fs-1 text-uppercase" style={{borderRadius: 0, paddingTop: "15px"}}>
+                      {college?.name ? `${college.name} - Shops` : "Shops"}
                     </h4>
-                </Col>
+              </Col>
             </Row>
 
             {loading && (
