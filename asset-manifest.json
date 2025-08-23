@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Saapadu/static/css/main.926a8c55.css",
+    "main.js": "/Saapadu/static/js/main.e0faad3e.js",
+    "static/js/453.670e15c7.chunk.js": "/Saapadu/static/js/453.670e15c7.chunk.js",
+    "index.html": "/Saapadu/index.html",
+    "main.926a8c55.css.map": "/Saapadu/static/css/main.926a8c55.css.map",
+    "main.e0faad3e.js.map": "/Saapadu/static/js/main.e0faad3e.js.map",
+    "453.670e15c7.chunk.js.map": "/Saapadu/static/js/453.670e15c7.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.926a8c55.css",
+    "static/js/main.e0faad3e.js"
+  ]
+}
