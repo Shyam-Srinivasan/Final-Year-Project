@@ -113,9 +113,10 @@ export const CategoryPage = () => {
         <Container fluid className="bg-white min-vh-100">
             <Row className="mb-3">
                 <Col className="p-0">
-                    <h4 className="text-center text-white bg-primary m-0 w-100 fs-1 text-uppercase" style={{borderRadius: 0}}>
+                    <p className="text-center text-white bg-primary m-0 w-100 fs-6 text-uppercase d-flex align-items-center justify-content-center"
+                        style={{borderRadius: 0, height: "50px"}}>
                         {shop?.name ? `${shop.name} - Shop` : "Shops"}
-                    </h4>
+                    </p>
                 </Col>
             </Row>
 

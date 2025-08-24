@@ -3,6 +3,7 @@ import axios from "axios";
 import {Alert, Button, Col, Container, Form, Modal, ModalBody, Row, Spinner} from "react-bootstrap";
 import {Tile} from "./Tile";
 import {CreateTile} from "./CreateTile";
+import {ItemTile} from "./ItemTile";
 
 const API_BASE = `http://${window.location.hostname}:8080`;
 export const ItemPage = () => {
@@ -120,9 +121,10 @@ export const ItemPage = () => {
         <Container fluid className="bg-white">
             <Row className="mb-3">
                 <Col className="p-0">
-                    <h4 className="text-center text-white bg-primary m-0 w-100 fs-1 text-uppercase" style={{borderRadius: 0}}>
+                    <p className="text-center text-white bg-primary m-0 w-100 fs-6 text-uppercase d-flex align-items-center justify-content-center"
+                        style={{borderRadius: 0, height: "50px"}}>
                         {category?.name ? `${category.name} - Items` : "Items"}
-                    </h4>
+                    </p>
                 </Col>
             </Row>
 
@@ -154,8 +156,9 @@ export const ItemPage = () => {
             {!loading && !error && (
                 <Row className="g-3 align-items-start">
                     {items.map((item) => (
-                        <Col key={item.itemId} xs="12" sm="6" md="4" lg="3" xl="3">
-                            <Tile name={item.item_name} image_path={item.image_path} price={item.price} stock_quantity={item.stock_quantity} type="item"/>
+                        <Col key={item.item_id} xs="12" sm="6" md="4" lg="3" xl="3">
+                            {/*<Tile id={item.item_id} name={item.item_name} image_path={item.image_path} price={item.price} stock_quantity={item.stock_quantity} type="item" onUpdate={loadItems}/>*/}
+                            <ItemTile id={item.item_id} name={item.item_name} image_path={item.image_path} price={item.price} stock_quantity={item.stock_quantity} type="item" onUpdate={loadItems}/>
                         </Col>
                     ))}
                     <Col xs="12" sm="6" md="4" lg="3" xl="3">

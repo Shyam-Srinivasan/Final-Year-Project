@@ -46,7 +46,7 @@ export const SignInPage = () => {
                     )
                 );
                 toast.success('Signed In Successful!', {autoClose: 2000});
-                setTimeout(() => navigate('/shops'), 1500);
+                setTimeout(() => navigate('/home'), 1500);
                 // navigate('/shops');
             } else {
                 toast.error('No Organization Found!');

@@ -226,4 +226,14 @@ public class Controller {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
+    @PutMapping("/itemList/updateStockQuantity")
+    ResponseEntity<ItemsModel> updateStockQuantityByItemId(@RequestParam Long itemId, @RequestParam Integer stockQuantity){
+        try {
+            itemsService.updateStockQuantityByItemId(itemId, stockQuantity);
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

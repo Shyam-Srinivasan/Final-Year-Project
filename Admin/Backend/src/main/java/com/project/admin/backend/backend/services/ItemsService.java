@@ -38,6 +38,13 @@ public class ItemsService {
         
     }
     
+    public void updateStockQuantityByItemId(Long itemId, Integer stockQuantity){
+        int updatedRows =  itemsRepository.updateStockQuantityByItemId(itemId, stockQuantity);
+        if(updatedRows == 0){
+            throw new RuntimeException("Item not found" + itemId);      
+        }
+    }
+    
 }
 
 

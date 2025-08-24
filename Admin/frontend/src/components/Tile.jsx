@@ -21,8 +21,8 @@ export const Tile = ({
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState("")
-const [form, setForm] = useState({ name: "", password: "", image_path: "", price: "", stock_quantity: "" });
+  const [error, setError] = useState("");
+  const [form, setForm] = useState({ name: "", password: "", image_path: "", price: "", stock_quantity: "" });
   const [college, setCollege] = useState(null);
   const [shop, setShop] = useState(null);
   const [category, setCategory] = useState(null);
@@ -151,79 +151,79 @@ const [form, setForm] = useState({ name: "", password: "", image_path: "", price
 
   const handleSave = async () => {
     try {
-      setSaving(true);
-      setError("");
-      if (typeof onSave === "function") {
-        await onSave({ id, ...form });
-      } 
-      else if (id) {
-          let res;
-          if(type === "shop"){
-              const payload = {
-                  college_id: college?.id ?? college?.college_id ?? college?.collegeId,
-                  shop_name: form.name,
-                  password: form.password,
-              };
-              res = await axios.put(
-                  `${API_BASE}/shopList/updateShop`,
-                  payload,{
-                      params: {shopId : id},
-                      validateStatus: () => true,
-                  }
-              );
-          if (res.status === 200) {
-            toast.success("Shop updated!", { autoClose: 2000 });
-            setShowModal(false);
-            if (typeof onUpdate === "function") await onUpdate();
-          } else {
-            toast.error(res.data || "Failed to update shop", { autoClose: 2000 });
-          }
+        setSaving(true);
+        setError("");
+        if (typeof onSave === "function") {
+            await onSave({ id, ...form });
         } 
-          else if (type === "category") {
-              const payload = {
-                category_name: form.name,
-                image_path: form.image_path,
-                shop_id: shop?.id ?? shop?.shop_id,
-              };
-              res = await axios.put(
-                `${API_BASE}/categoryList/updateCategory`, 
-                  payload, {
-                  params: { categoryId: id },
-                  validateStatus: () => true,
+        else if (id) {
+            let res;
+            if(type === "shop"){
+                const payload = {
+                    college_id: college?.id ?? college?.college_id ?? college?.collegeId,
+                    shop_name: form.name,
+                    password: form.password,
+                };
+                res = await axios.put(
+                    `${API_BASE}/shopList/updateShop`,
+                        payload,{
+                            params: {shopId : id},
+                            validateStatus: () => true,
+                        }
+                );
+                if (res.status === 200) {
+                    toast.success("Shop updated!", { autoClose: 2000 });
+                    setShowModal(false);
+                    if (typeof onUpdate === "function") await onUpdate();
+                } else {
+                    toast.error(res.data || "Failed to update shop", { autoClose: 2000 });
                 }
-              );
-              if (res.status === 201) {
-                  toast.success("Category updated!", { autoClose: 2000 });
-                  setShowModal(false);
-                  if (typeof onUpdate === "function") await onUpdate();
-              } else {
-                  toast.error(res.data || "Failed to update category", { autoClose: 2000 });
-              }
+            } 
+            else if (type === "category") {
+                const payload = {
+                    category_name: form.name,
+                    image_path: form.image_path,
+                    shop_id: shop?.id ?? shop?.shop_id,
+                };
+                res = await axios.put(
+                    `${API_BASE}/categoryList/updateCategory`, 
+                    payload, {
+                        params: { categoryId: id },
+                        validateStatus: () => true,
+                    }
+                );
+                if (res.status === 201) {
+                    toast.success("Category updated!", { autoClose: 2000 });
+                    setShowModal(false);
+                    if (typeof onUpdate === "function") await onUpdate();
+                } else {
+                    toast.error(res.data || "Failed to update category", { autoClose: 2000 });
+                }
+            }
+            else if (type === "item"){
+                const payload = {
+                    category_id: category?.id ?? category?.category_id,
+                    item_name: form.name,
+                    image_path: form.image_path,
+                    price: form.price,
+                    stock_quantity: form.stock_quantity
+                };
+                res = await axios.put(
+                    `${API_BASE}/itemList/updateItem`,
+                    payload, {
+                        params: {itemId: id},
+                        validateStatus: () => true
+                    }
+                );
+                if(res.status === 201){
+                    toast.success("Item updated!", {autoClose: 2000});
+                    setShowModal(false);
+                    if(typeof onUpdate === "function") await onUpdate();
+                } else {
+                    toast.error(res.data || "Failed to update item", {autoClose: 2000});
+                }
+            }
         }
-          else if (type === "item"){
-              const payload = {
-                  category_id: category?.id ?? category?.category_id,
-                  item_name: form.name,
-                  image_path: form.image_path,
-                  price: form.price,
-                  stock_quantity: form.stock_quantity
-              };
-              res = await axios.put(
-                  `${API_BASE}/itemList/updateItem`,
-                  payload, {
-                      params: {itemId: id},
-                      validateStatus: () => true
-                  }
-              );
-              if(res.status === 201){
-                  toast.success("Item updated!", {autoClose: 2000});
-                  setShowModal(false);
-                  if(typeof onUpdate === "function") await onUpdate();
-              } else {
-                  toast.error(res.data || "Failed to update item", {autoClose: 2000});
-              }
-          }
-      }
     } catch (e) {
       setError("Failed to save changes.");
     } finally {

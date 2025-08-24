@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import axios from "axios";
-import { Alert, Button, Col, Container, Row, Form, Modal, Spinner } from "react-bootstrap";
+import {Alert, Button, Col, Container, Row, Form, Modal, Spinner} from "react-bootstrap";
 import {CreateTile} from "./CreateTile";
 import {Tile} from "./Tile";
 
@@ -31,7 +31,7 @@ export const ShopPage = () => {
                 return;
             }
             const res = await axios.get(`${API_BASE}/shopList/fetchShop`, {
-                params: { collegeId: college.id },
+                params: {collegeId: college.id},
                 validateStatus: () => true
             });
 
@@ -64,26 +64,26 @@ export const ShopPage = () => {
     const closeCreate = () => setShowCreate(false);
 
     const onFormChange = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setForm((f) => ({...f, [name]: value}));
     };
 
     const submitCreate = async (e) => {
         e.preventDefault();
-        if(!college?.id){
+        if (!college?.id) {
             setError("No organization found in session. Please sign in again.")
             return;
         }
-        if(!form.shop_name?.trim()){
+        if (!form.shop_name?.trim()) {
             return alert("ShopPage name is required.");
         }
-        if(!form.password?.trim()){
+        if (!form.password?.trim()) {
             return alert("Password is required.");
         }
 
         setSubmitting(true);
 
-        try{
+        try {
             const payload = {
                 shop_name: form.shop_name.trim(),
                 password: form.password,
@@ -97,10 +97,10 @@ export const ShopPage = () => {
                     validateStatus: () => true
                 }
             );
-            if(res.status === 201 || res.status === 200){
+            if (res.status === 201 || res.status === 200) {
                 closeCreate();
                 await loadShops();
-            } else{
+            } else {
                 const msg = res.data || "Failed to create shop.";
                 alert(msg);
             }
@@ -110,21 +110,22 @@ export const ShopPage = () => {
             setSubmitting(false);
         }
     }
-    
+
     return (
         <Container fluid className="bg-white min-vh-100">
             <Row className="mb-3">
                 <Col className="p-0">
-                    <h4 className="text-center text-white bg-primary m-0 w-100 fs-1 text-uppercase" style={{borderRadius: 0, paddingTop: "15px"}}>
-                      {college?.name ? `${college.name} - Shops` : "Shops"}
-                    </h4>
-              </Col>
+                    <p className="text-center text-white bg-primary m-0 w-100 fs-6 text-uppercase d-flex align-items-center justify-content-center"
+                        style={{borderRadius: 0, height: "50px"}}>
+                        {college?.name ? `${college.name} - Shops` : "Shops"}
+                    </p>
+                </Col>
             </Row>
 
             {loading && (
                 <Row>
                     <Col className="d-flex align-items-center">
-                        <Spinner animation="border" role="status" className="me-2" />
+                        <Spinner animation="border" role="status" className="me-2"/>
                         <span>Loading shops...</span>
                     </Col>
                 </Row>
@@ -150,7 +151,8 @@ export const ShopPage = () => {
                 <Row className="g-2 g-lg-1 g-xl-0 justify-content-start">
                     {shops.map((shop) => (
                         <Col key={shop.shop_id ?? shop.shopId} xs="12" sm="6" md="4" lg="3" xl="3">
-                            <Tile name={shop.shop_name?? shop.shopName} id={shop.shop_id?? shop.shopId} onUpdate={loadShops} type="shop"
+                            <Tile name={shop.shop_name ?? shop.shopName} id={shop.shop_id ?? shop.shopId}
+                                  onUpdate={loadShops} type="shop"
                             />
                         </Col>
                     ))}
