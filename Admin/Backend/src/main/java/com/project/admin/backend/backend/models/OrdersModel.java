@@ -44,4 +44,5 @@ public class OrdersModel {
     @ManyToOne
     @JoinColumn(name = "shop_id", insertable = false, updatable = false)
     ShopsModel shop;
+
 }

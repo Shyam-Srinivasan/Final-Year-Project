@@ -9,4 +9,5 @@ public interface ShopsRepository extends JpaRepository<ShopsModel, Long> {
     List<ShopsModel> findAllByCollege_CollegeId(Long collegeName);
 
     ShopsModel findByShopId(Long shop_id);
+
 }

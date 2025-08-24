@@ -1,9 +1,6 @@
 package com.project.admin.backend.backend.controllers;
 
-import com.project.admin.backend.backend.models.CategoriesModel;
-import com.project.admin.backend.backend.models.CollegesModel;
-import com.project.admin.backend.backend.models.ItemsModel;
-import com.project.admin.backend.backend.models.ShopsModel;
+import com.project.admin.backend.backend.models.*;
 import com.project.admin.backend.backend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +22,8 @@ public class Controller {
     private CategoriesService categoriesService;
     @Autowired
     private ItemsService itemsService;
+    @Autowired
+    private DashboardService dashboardService;
 
 
     public Controller(SignUpService signUpService, SignInService signInService, ShopsService shopsService) {
@@ -235,5 +234,15 @@ public class Controller {
         } catch (Exception e){
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    
+    @GetMapping("/home/orders-shop-id")
+    Long getTotalOrdersByShopId(@RequestParam Long shopId){
+        return dashboardService.fetchTotalOrdersByShopId(shopId);
+    }
+    
+    @GetMapping("/home/orders-college-id")
+    Long getTotalOrdersByCollegeId(@RequestParam Long collegeId){
+        return dashboardService.fetchTotalOrdersByCollegeId(collegeId);
     }
 }
