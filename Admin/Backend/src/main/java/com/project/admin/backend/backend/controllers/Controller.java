@@ -245,4 +245,24 @@ public class Controller {
     Long getTotalOrdersByCollegeId(@RequestParam Long collegeId){
         return dashboardService.fetchTotalOrdersByCollegeId(collegeId);
     }
+    
+    @GetMapping("/home/pending-shop-id")
+    Long getPendingOrdersByShopId(@RequestParam Long shopId){
+        return dashboardService.fetchPendingOrdersByShopId(shopId);
+    }
+    
+    @GetMapping("/home/pending-college-id")
+    Long getPendingOrdersByCollegeId(@RequestParam Long collegeId){
+        return dashboardService.fetchPendingOrdersByCollegeId(collegeId);
+    }
+    
+    @GetMapping("/home/completed-shop-id")
+    Long getCompletedOrdersByShopId(@RequestParam Long shopId){
+        return dashboardService.fetchCompletedOrdersByShopId(shopId);
+    }
+    
+    @GetMapping("/home/completed-college-id")
+    Long getCompletedOrdersByCollegeId(@RequestParam Long collegeId){
+        return dashboardService.fetchCompletedOrdersByCollegeId(collegeId);
+    }
 }

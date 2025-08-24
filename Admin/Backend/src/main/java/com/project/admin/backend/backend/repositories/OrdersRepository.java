@@ -13,8 +13,9 @@ import java.util.List;
 public interface OrdersRepository extends JpaRepository<OrdersModel, Long> {
 
     Long countAllByShopId(Long shopId);
+    Long countAllByShopIdAndIsPurchased(Long shopId, Boolean isPurchased);
 
     Long countAllByShop_College_CollegeId(Long collegeId);
-    
-    
+
+    Long countAllByShop_College_CollegeIdAndIsPurchased(Long collegeId, Boolean isPurchased);
 }

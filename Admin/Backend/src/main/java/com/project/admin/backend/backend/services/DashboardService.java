@@ -22,5 +22,19 @@ public class DashboardService {
         return ordersRepository.countAllByShop_College_CollegeId(collegeId);
     }
     
+    public Long fetchPendingOrdersByShopId(Long shopId){
+        return ordersRepository.countAllByShopIdAndIsPurchased(shopId, false);
+    }
     
+    public Long fetchPendingOrdersByCollegeId(Long collegeId){
+        return ordersRepository.countAllByShop_College_CollegeIdAndIsPurchased(collegeId, false);
+    }
+    
+    public Long fetchCompletedOrdersByShopId(Long shopId){
+        return ordersRepository.countAllByShopIdAndIsPurchased(shopId, true);
+    }
+    
+    public Long fetchCompletedOrdersByCollegeId(Long collegeId){
+        return ordersRepository.countAllByShop_College_CollegeIdAndIsPurchased(collegeId, true);
+    }
 }
