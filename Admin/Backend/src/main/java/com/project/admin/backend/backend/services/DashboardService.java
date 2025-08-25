@@ -37,4 +37,8 @@ public class DashboardService {
     public Long fetchCompletedOrdersByCollegeId(Long collegeId){
         return ordersRepository.countAllByShop_College_CollegeIdAndIsPurchased(collegeId, true);
     }
+    
+    public List<OrdersModel> fetchRecentOrders(Long collegeId){
+        return ordersRepository.findTop10ByShop_College_CollegeIdOrderByTimeStampDesc(collegeId);
+    }
 }

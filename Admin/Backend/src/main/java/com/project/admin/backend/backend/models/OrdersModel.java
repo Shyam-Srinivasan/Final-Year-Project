@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -44,5 +45,9 @@ public class OrdersModel {
     @ManyToOne
     @JoinColumn(name = "shop_id", insertable = false, updatable = false)
     ShopsModel shop;
+    
+//    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+//    private List<OrderItemsModel> orderItems;
+
 
 }
